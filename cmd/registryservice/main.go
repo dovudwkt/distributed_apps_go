@@ -4,6 +4,7 @@ import (
 	"app/registry"
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -15,6 +16,11 @@ func main() {
 
 	var srv http.Server
 	srv.Addr = registry.ServerPort
+
+	go func() {
+		log.Println(srv.ListenAndServe())
+		cancel()
+	}()
 
 	go func() {
 		fmt.Println("Registry service started. Press any key to stop.")
